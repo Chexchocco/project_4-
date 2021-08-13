@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
         xMove = 0;
         yMove = 0;
 
@@ -37,12 +37,12 @@ public class Player : MonoBehaviour
         }
 
         Move(xMove);
-        
+
 
     }
     void Move(float xMove)
     {
-        if ((!right_move)&&(xMove>0)) 
+        if ((!right_move) && (xMove > 0))
         {
             this.transform.Translate(new Vector3(xMove, 0, 0));
         }
@@ -53,15 +53,15 @@ public class Player : MonoBehaviour
     }
     void Jump()
     {
-        if (!isJumping) 
+        if (!isJumping)
         {
             gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector3(0, 20, 0), ForceMode2D.Impulse);
         }
 
     }
-    private void OnCollisionStay2D(Collision2D collision) 
+    private void OnCollisionStay2D(Collision2D collision)
     {
-       if (collision.contacts.Length > 0)
+        if (collision.contacts.Length > 0)
         {
             ContactPoint2D contact = collision.contacts[0];
             if (Vector3.Dot(contact.normal, Vector3.up) > 0.5)
@@ -69,10 +69,20 @@ public class Player : MonoBehaviour
                 isJumping = false;
 
             }
-            
+
         }
-       
-       
+        Collider2D col = GetComponents<BoxCollider2D>()[0];
+
+        if (col == collision.otherCollider)
+        {
+            right_move = true;
+        }
+
+        col = GetComponents<BoxCollider2D>()[1];
+        if (col == collision.otherCollider)
+        {
+            left_move = true;
+        }
 
     }
     private void OnCollisionExit2D(Collision2D collision)
@@ -80,9 +90,23 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag.Equals("Platform"))
         {
             isJumping = true;
-            
+
         }
-            
+
+        Collider2D col = GetComponents<BoxCollider2D>()[0];
+
+        if (col == collision.otherCollider)
+        {
+            right_move = false;
+        }
+
+        col = GetComponents<BoxCollider2D>()[1];
+        if (col == collision.otherCollider)
+        {
+            left_move = false;
+        }
+
+
     }
 
 }
