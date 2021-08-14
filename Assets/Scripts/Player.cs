@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     float speed = 10.0f;
     float xMove = 0;
     float yMove = 0;
+    int fast_move_count = 300;
+    int cool_down = 3000;
     private bool isJumping = false;
     private bool left_move = false;
     private bool right_move = false;
@@ -26,7 +28,8 @@ public class Player : MonoBehaviour
 
         xMove = 0;
         yMove = 0;
-
+        if ((Input.GetKey(KeyCode.Q)) && (fast_move_count ==300))
+            speed = 20.0f;
         if (Input.GetKey(KeyCode.RightArrow))
             xMove += speed * Time.deltaTime;
         if (Input.GetKey(KeyCode.LeftArrow))
@@ -37,7 +40,21 @@ public class Player : MonoBehaviour
         }
 
         Move(xMove);
-
+        if(speed == 20.0f)
+        {
+            fast_move_count--;
+        }
+        if (fast_move_count == 0)
+        {
+           cool_down = 3000;
+           speed = 10.0f;
+        }
+        if(cool_down > 0)
+        {
+            cool_down--;
+            fast_move_count = 300;
+        }
+        
 
     }
     void Move(float xMove)
@@ -72,7 +89,7 @@ public class Player : MonoBehaviour
 
         }
         Collider2D col = GetComponents<BoxCollider2D>()[0];
-
+        
         if (col == collision.otherCollider)
         {
             right_move = true;
