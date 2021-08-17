@@ -48,7 +48,7 @@ public  class TimeObject : MonoBehaviour
         {
             this.transform.Translate(new Vector3(speed, 0, 0));
         }
-        else
+        else if(rewind == false)
         {
             this.transform.Translate(new Vector3(-1*speed, 0, 0));
         }
