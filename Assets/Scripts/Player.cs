@@ -14,8 +14,6 @@ public class Player : MonoBehaviour
     private bool left_move = false;
     private bool right_move = false;
 
-    Collision2D collision1;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -87,7 +85,7 @@ public class Player : MonoBehaviour
             if (Vector3.Dot(contact.normal, Vector3.up) > 0.5)
             {
                 isJumping = false;
-
+                
             }
 
         }
@@ -103,6 +101,7 @@ public class Player : MonoBehaviour
         {
             left_move = true;
         }
+        
 
     }
     private void OnCollisionExit2D(Collision2D collision)
@@ -110,7 +109,6 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag.Equals("Platform"))
         {
             isJumping = true;
-
         }
 
         Collider2D col = GetComponents<BoxCollider2D>()[0];

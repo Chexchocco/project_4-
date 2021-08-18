@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public  class TimeObject : MonoBehaviour
+public class TimeObject : MonoBehaviour
 {
     // Start is called before the first frame update
     private bool mouse_over = false;
@@ -12,7 +12,7 @@ public  class TimeObject : MonoBehaviour
     float cool_down = 0.0f;
     void Start()
     {
-        
+
     }
 
 
@@ -21,7 +21,7 @@ public  class TimeObject : MonoBehaviour
     {
         if (mouse_over == true)
         {
-            if ((Input.GetKey(KeyCode.R)) &&(cool_down <= 0.0f) )
+            if ((Input.GetKey(KeyCode.R)) && (cool_down <= 0.0f))
             {
                 rewind = true;
                 rewind_durataion = 10.0f;
@@ -29,30 +29,30 @@ public  class TimeObject : MonoBehaviour
                 Debug.Log("rewinded");
             }
         }
-        if(rewind = true)
+        if (rewind = true)
         {
             rewind_durataion -= Time.deltaTime;
 
-            if(rewind_durataion <= 0)
+            if (rewind_durataion <= 0)
             {
                 rewind = false;
-               
+
             }
         }
-        if(cool_down > 0.0f)
+        if (cool_down > 0.0f)
         {
             cool_down -= Time.deltaTime;
         }
 
-        if(rewind == true)
+        if (rewind == true)
         {
             this.transform.Translate(new Vector3(speed, 0, 0));
         }
-        else if(rewind == false)
+        else if (rewind == false)
         {
-            this.transform.Translate(new Vector3(-1*speed, 0, 0));
+            this.transform.Translate(new Vector3(-1 * speed, 0, 0));
         }
-        
+
 
     }
 
@@ -64,5 +64,18 @@ public  class TimeObject : MonoBehaviour
     {
         mouse_over = false;
     }
-
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag.Equals("Player"))
+        {
+            if (rewind == true)
+            {
+                collision.gameObject.transform.Translate(new Vector3(speed, 0, 0));
+            }
+            else if (rewind == false)
+            {
+                collision.gameObject.transform.Translate(new Vector3(-1 * speed, 0, 0));
+            }
+        }
+    }
 }
