@@ -13,11 +13,12 @@ public class Player : MonoBehaviour
     private bool isJumping = false;
     private bool left_move = false;
     private bool right_move = false;
+    SpriteRenderer rend;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        rend = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -28,10 +29,20 @@ public class Player : MonoBehaviour
         yMove = 0;
         if ((Input.GetKey(KeyCode.Q)) && (fast_move_count ==3.0f))
             speed = 20.0f;
-        if (Input.GetKey(KeyCode.RightArrow))
+        if ((Input.GetKey(KeyCode.RightArrow)) && (Input.GetKey(KeyCode.LeftArrow))) 
+        { 
+
+        }
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
             xMove += speed * Time.deltaTime;
-        if (Input.GetKey(KeyCode.LeftArrow))
+            rend.flipX = false;
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {
             xMove -= speed * Time.deltaTime;
+            rend.flipX = true;
+        }
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
