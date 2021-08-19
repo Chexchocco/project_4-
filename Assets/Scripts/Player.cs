@@ -15,6 +15,10 @@ public class Player : MonoBehaviour
     private bool right_move = false;
     SpriteRenderer rend;
 
+    public GameObject Recall;
+
+
+    public Transform pTransform;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +28,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
 
         xMove = 0;
         yMove = 0;
@@ -67,7 +72,16 @@ public class Player : MonoBehaviour
                 fast_move_count = 3.0f;
             }
         }
-       
+        recall_make();
+        
+
+    }
+    private void recall_make()
+    { // recall 이라는 prefab들을 만들어냄
+       // recall은 후에 real_recall로 변신함 시간이 지나면
+       // 스킬을 사용시 real_recall위치로 이동하게 되는 식
+        GameObject Rec = GameObject.Instantiate(Recall);
+        Rec.GetComponent<Recall>().init(this);
     }
     void Move(float xMove)
     {
@@ -90,17 +104,36 @@ public class Player : MonoBehaviour
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
+        /*
         if (collision.contacts.Length > 0)
         {
             ContactPoint2D contact = collision.contacts[0];
             if (Vector3.Dot(contact.normal, Vector3.up) > 0.5)
             {
                 isJumping = false;
-                
+                pTransform = collision.gameObject.transform;
+
+                transform.parent = pTransform; //오브젝트의 페어런트를 pTransform으로 지정하여 줍니다.
+
             }
 
         }
-        Collider2D col = GetComponents<BoxCollider2D>()[0];
+        */
+        Collider2D col = GetComponents<CircleCollider2D>()[0];
+
+        if (col == collision.otherCollider)
+        {
+            isJumping = false;
+        }
+
+        col = GetComponents<CircleCollider2D>()[1];
+        if (col == collision.otherCollider)
+        {
+            isJumping = false;
+        }
+
+
+        col = GetComponents<BoxCollider2D>()[0];
         
         if (col == collision.otherCollider)
         {
@@ -120,6 +153,8 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag.Equals("Platform"))
         {
             isJumping = true;
+            transform.parent = null; //오브젝트의 페어런트를 해제합니다. 즉 페어런트가 없는 상태로 됩니다.
+            
         }
 
         Collider2D col = GetComponents<BoxCollider2D>()[0];

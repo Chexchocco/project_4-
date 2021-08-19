@@ -10,6 +10,7 @@ public class TimeObject : MonoBehaviour
     float rewind_durataion = 1.0f;
     float speed = 0.003f;
     float cool_down = 0.0f;
+    private bool is_colliding = false;
     void Start()
     {
 
@@ -29,7 +30,7 @@ public class TimeObject : MonoBehaviour
                 Debug.Log("rewinded");
             }
         }
-        if (rewind = true)
+        if (rewind == true)
         {
             rewind_durataion -= Time.deltaTime;
 
@@ -47,6 +48,7 @@ public class TimeObject : MonoBehaviour
         if (rewind == true)
         {
             this.transform.Translate(new Vector3(speed, 0, 0));
+            
         }
         else if (rewind == false)
         {
@@ -64,18 +66,5 @@ public class TimeObject : MonoBehaviour
     {
         mouse_over = false;
     }
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag.Equals("Player"))
-        {
-            if (rewind == true)
-            {
-                collision.gameObject.transform.Translate(new Vector3(speed, 0, 0));
-            }
-            else if (rewind == false)
-            {
-                collision.gameObject.transform.Translate(new Vector3(-1 * speed, 0, 0));
-            }
-        }
-    }
+  
 }
