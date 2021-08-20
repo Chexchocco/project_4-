@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     private bool right_move = false;
     SpriteRenderer rend;
 
-    public GameObject Recall;
+   
 
 
     public Transform pTransform;
@@ -72,17 +72,10 @@ public class Player : MonoBehaviour
                 fast_move_count = 3.0f;
             }
         }
-        recall_make();
         
 
     }
-    private void recall_make()
-    { // recall 이라는 prefab들을 만들어냄
-       // recall은 후에 real_recall로 변신함 시간이 지나면
-       // 스킬을 사용시 real_recall위치로 이동하게 되는 식
-        GameObject Rec = GameObject.Instantiate(Recall);
-        Rec.GetComponent<Recall>().init(this);
-    }
+  
     void Move(float xMove)
     {
         if ((!right_move) && (xMove > 0))
@@ -104,7 +97,6 @@ public class Player : MonoBehaviour
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
-        /*
         if (collision.contacts.Length > 0)
         {
             ContactPoint2D contact = collision.contacts[0];
@@ -118,7 +110,6 @@ public class Player : MonoBehaviour
             }
 
         }
-        */
         Collider2D col = GetComponents<CircleCollider2D>()[0];
 
         if (col == collision.otherCollider)
