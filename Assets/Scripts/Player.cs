@@ -5,17 +5,21 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     // Start is called before the first frame update
-    float speed = 10.0f;
-    float xMove = 0;
-    float yMove = 0;
+
+
     float fast_move_count = 3.0f;
     float cool_down = 10.0f;
     private bool isJumping = false;
-    private bool left_move = false;
-    private bool right_move = false;
     SpriteRenderer rend;
-
    
+    public GameObject recallPrefab;
+
+    Vector3 recall_pos;
+
+    //
+
+    public float maxSpeed;
+    Rigidbody2D rigid;
 
 
     public Transform pTransform;
@@ -25,42 +29,55 @@ public class Player : MonoBehaviour
         rend = GetComponent<SpriteRenderer>();
     }
 
+
+    void Awake()
+    {
+        rigid = GetComponent<Rigidbody2D>();
+
+    }
     // Update is called once per frame
     void Update()
     {
-        
+        float h = Input.GetAxisRaw("Horizontal");
+        rigid.AddForce(Vector2.right * h, ForceMode2D.Impulse);
 
-        xMove = 0;
-        yMove = 0;
+        //Max Speed
+        if (rigid.velocity.x > maxSpeed) //Right Max Speed
+            rigid.velocity = new Vector2(maxSpeed, rigid.velocity.y);
+
+        else if (rigid.velocity.x < maxSpeed * (-1)) //Left Max Speed
+            rigid.velocity = new Vector2(maxSpeed * (-1), rigid.velocity.y);
+
         if ((Input.GetKey(KeyCode.Q)) && (fast_move_count ==3.0f))
-            speed = 20.0f;
+            maxSpeed = 20.0f;
         if ((Input.GetKey(KeyCode.RightArrow)) && (Input.GetKey(KeyCode.LeftArrow))) 
         { 
 
         }
         else if (Input.GetKey(KeyCode.RightArrow))
         {
-            xMove += speed * Time.deltaTime;
             rend.flipX = false;
         }
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
-            xMove -= speed * Time.deltaTime;
             rend.flipX = true;
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
         }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Recall();
+        }
 
-        Move(xMove);
-        if(speed == 20.0f)
+        if(maxSpeed == 20.0f)
         {
             fast_move_count -= Time.deltaTime ;
             if (fast_move_count <= 0.0f)
             {
                 cool_down = 10.0f;
-                speed = 10.0f;
+                maxSpeed = 10.0f;
             }
         }
         
@@ -72,21 +89,12 @@ public class Player : MonoBehaviour
                 fast_move_count = 3.0f;
             }
         }
-        
+
+        recall_trace();
 
     }
   
-    void Move(float xMove)
-    {
-        if ((!right_move) && (xMove > 0))
-        {
-            this.transform.Translate(new Vector3(xMove, 0, 0));
-        }
-        else if ((!left_move) && (xMove < 0))
-        {
-            this.transform.Translate(new Vector3(xMove, 0, 0));
-        }
-    }
+    
     void Jump()
     {
         if (!isJumping)
@@ -110,33 +118,10 @@ public class Player : MonoBehaviour
             }
 
         }
-        Collider2D col = GetComponents<CircleCollider2D>()[0];
-
-        if (col == collision.otherCollider)
-        {
-            isJumping = false;
-        }
-
-        col = GetComponents<CircleCollider2D>()[1];
-        if (col == collision.otherCollider)
-        {
-            isJumping = false;
-        }
-
-
-        col = GetComponents<BoxCollider2D>()[0];
         
-        if (col == collision.otherCollider)
-        {
-            right_move = true;
-        }
 
-        col = GetComponents<BoxCollider2D>()[1];
-        if (col == collision.otherCollider)
-        {
-            left_move = true;
-        }
-        
+
+       
 
     }
     private void OnCollisionExit2D(Collision2D collision)
@@ -148,20 +133,21 @@ public class Player : MonoBehaviour
             
         }
 
-        Collider2D col = GetComponents<BoxCollider2D>()[0];
-
-        if (col == collision.otherCollider)
-        {
-            right_move = false;
-        }
-
-        col = GetComponents<BoxCollider2D>()[1];
-        if (col == collision.otherCollider)
-        {
-            left_move = false;
-        }
+        
 
 
     }
 
+    void recall_trace()
+    {
+
+        GameObject Recall = GameObject.Instantiate(recallPrefab);
+        Recall.GetComponent<recall>().init(this);
+    }
+    void Recall()
+    {
+        recall_pos = GameObject.FindWithTag("recall_point").transform.position;
+        gameObject.transform.position = recall_pos;
+        Destroy(GameObject.FindWithTag("recall_point"));
+    }
 }
