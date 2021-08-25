@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
                 rigid.velocity = new Vector2(maxSpeed * (-1), rigid.velocity.y);
 
             if ((Input.GetKey(KeyCode.Q)) && (fast_move_count == 3.0f))
-                maxSpeed = 10.0f;
+                maxSpeed = 20.0f;
             if (Input.GetAxisRaw("Horizontal") == 0)
             {
                 anime.SetBool("Moving", false);
@@ -112,13 +112,13 @@ public class Player : MonoBehaviour
             }
         }
 
-        if(maxSpeed == 10.0f)
+        if(maxSpeed == 20.0f)
         {
             fast_move_count -= Time.deltaTime ;
             if (fast_move_count <= 0.0f)
             {
                 cool_down = 10.0f;
-                maxSpeed = 5.0f;
+                maxSpeed = 10.0f;
             }
         }
         
@@ -142,7 +142,7 @@ public class Player : MonoBehaviour
     {
         if (!isJumping)
         {
-            gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector3(0, 20, 0), ForceMode2D.Impulse);
+            gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector3(0, 30, 0), ForceMode2D.Impulse);
         }
 
     }

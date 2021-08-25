@@ -132,7 +132,6 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
-  - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -148,26 +147,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
---- !u!114 &519420030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AssetsPPU: 32
-  m_RefResolutionX: 320
-  m_RefResolutionY: 180
-  m_UpscaleRT: 0
-  m_PixelSnapping: 1
-  m_CropFrameX: 0
-  m_CropFrameY: 0
-  m_StretchFill: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -195,7 +174,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3.2822626
+  orthographic size: 5.60293
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -346,7 +325,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 911109918}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: -1.71, z: 0}
+  m_LocalPosition: {x: 0.5, y: -1.11, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 519420032}
@@ -367,7 +346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recallPrefab: {fileID: 5536498475024785653, guid: 4b0672a57378dc144835497e08dec60c,
     type: 3}
-  maxSpeed: 5
+  maxSpeed: 10
   pTransform: {fileID: 0}
 --- !u!61 &911109924
 BoxCollider2D:
@@ -382,18 +361,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.45238328}
+  m_Offset: {x: -0.07, y: -1.17}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.35625, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 2.5, y: 2.5}
     newSize: {x: 3.2, y: 3.2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.48, y: 0.09523344}
+  m_Size: {x: 1.02, y: 0.09523344}
   m_EdgeRadius: 0
 --- !u!61 &911109927
 BoxCollider2D:
@@ -408,18 +387,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.03}
+  m_Offset: {x: 0.02, y: -0.08}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.35625, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 2.5, y: 2.5}
     newSize: {x: 3.2, y: 3.2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6, y: 0.84}
+  m_Size: {x: 1.46, y: 2.13}
   m_EdgeRadius: 0
 --- !u!1 &958503691
 GameObject:
@@ -432,7 +411,6 @@ GameObject:
   - component: {fileID: 958503695}
   - component: {fileID: 958503694}
   - component: {fileID: 958503693}
-  - component: {fileID: 958503692}
   - component: {fileID: 958503696}
   m_Layer: 0
   m_Name: tfra (3)
@@ -441,27 +419,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!50 &958503692
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 958503691}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &958503693
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -723,7 +680,6 @@ GameObject:
   - component: {fileID: 2026836455}
   - component: {fileID: 2026836454}
   - component: {fileID: 2026836453}
-  - component: {fileID: 2026836452}
   - component: {fileID: 2026836451}
   m_Layer: 0
   m_Name: tfra (5)
@@ -751,27 +707,6 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
---- !u!50 &2026836452
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2026836450}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &2026836453
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -873,7 +808,6 @@ GameObject:
   - component: {fileID: 2088688996}
   - component: {fileID: 2088688995}
   - component: {fileID: 2088688994}
-  - component: {fileID: 2088688993}
   - component: {fileID: 2088688992}
   m_Layer: 0
   m_Name: tfra (7)
@@ -901,27 +835,6 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
---- !u!50 &2088688993
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2088688991}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &2088688994
 BoxCollider2D:
   m_ObjectHideFlags: 0
