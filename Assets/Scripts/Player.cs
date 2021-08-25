@@ -26,7 +26,6 @@ public class Player : MonoBehaviour
     private Animator anime;
     float recall_pro;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -70,13 +69,17 @@ public class Player : MonoBehaviour
             }
             else if (Input.GetKey(KeyCode.RightArrow))
             {
+
                 rend.flipX = true;
                 anime.SetBool("Moving", true);
+
             }
             else if (Input.GetKey(KeyCode.LeftArrow))
             {
+
                 rend.flipX = false;
                 anime.SetBool("Moving", true);
+
             }
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -143,9 +146,8 @@ public class Player : MonoBehaviour
         }
 
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.collider != this.GetComponent<BoxCollider2D>())
         anime.SetBool("Landing", true);
 
     }
