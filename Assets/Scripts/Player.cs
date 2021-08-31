@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     float cool_down = 10.0f;
     private bool isJumping = false;
     SpriteRenderer rend;
-    private bool can_move;
+    public bool can_move;
    
     public GameObject recallPrefab;
 
@@ -25,6 +25,10 @@ public class Player : MonoBehaviour
     //
     private Animator anime;
     float recall_pro;
+    
+    public DialogueManager Dialogue_manager;
+    public GameObject Interaction_object;
+    public bool Can_Interact;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +38,9 @@ public class Player : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         can_move = true;
         recall_pro = 1.0f;
+        Can_Interact = false;
     }
+
 
 
     void Awake()
@@ -48,33 +54,35 @@ public class Player : MonoBehaviour
         if(can_move == true)
         {
             float h = Input.GetAxisRaw("Horizontal");
-            rigid.AddForce(Vector2.right * h *5, ForceMode2D.Impulse);
+            if ((Input.GetKey(KeyCode.A) || (Input.GetKey(KeyCode.D))))
+            {
+                rigid.AddForce(Vector2.right * h * 5, ForceMode2D.Impulse);
 
-            //Max Speed
-            if (rigid.velocity.x > maxSpeed) //Right Max Speed
-                rigid.velocity = new Vector2(maxSpeed, rigid.velocity.y);
+                //Max Speed
+                if (rigid.velocity.x > maxSpeed) //Right Max Speed
+                    rigid.velocity = new Vector2(maxSpeed, rigid.velocity.y);
 
-            else if (rigid.velocity.x < maxSpeed * (-1)) //Left Max Speed
-                rigid.velocity = new Vector2(maxSpeed * (-1), rigid.velocity.y);
-
+                else if (rigid.velocity.x < maxSpeed * (-1)) //Left Max Speed
+                    rigid.velocity = new Vector2(maxSpeed * (-1), rigid.velocity.y);
+            }
             if ((Input.GetKey(KeyCode.Q)) && (fast_move_count == 3.0f))
                 maxSpeed = 8.0f;
             if (Input.GetAxisRaw("Horizontal") == 0)
             {
                 anime.SetBool("Moving", false);
             }
-            if ((Input.GetKey(KeyCode.RightArrow)) && (Input.GetKey(KeyCode.LeftArrow)))
+            if ((Input.GetKey(KeyCode.D)) && (Input.GetKey(KeyCode.A))                 ) 
             {
                 anime.SetBool("Moving", false);
             }
-            else if (Input.GetKey(KeyCode.RightArrow))
+            else if (Input.GetKey(KeyCode.D))
             {
 
                 rend.flipX = true;
                 anime.SetBool("Moving", true);
 
             }
-            else if (Input.GetKey(KeyCode.LeftArrow))
+            else if (Input.GetKey(KeyCode.A))
             {
 
                 rend.flipX = false;
@@ -96,6 +104,17 @@ public class Player : MonoBehaviour
                 rigid.gravityScale = 0;
                 rigid.bodyType = RigidbodyType2D.Static;
             }
+            if (Input.GetKeyDown(KeyCode.F) &&(Can_Interact == true)   )
+            {
+
+                Dialogue_manager.Interaction(Interaction_object);
+            }
+
+
+            recall_trace();
+
+
+
         }
         if(can_move == false)
         {
@@ -131,7 +150,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        recall_trace();
+        
 
 
 
@@ -150,6 +169,22 @@ public class Player : MonoBehaviour
     {
         anime.SetBool("Landing", true);
 
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag.Equals("Interaction_object"))
+        {
+            Can_Interact = true;
+            GameObject Interaction_object = collision.gameObject;
+        }
+    }
+    private void OnTriggerExitStay2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag.Equals("Interaction_object"))
+        {
+            Can_Interact = false;
+            GameObject Interaction_object = collision.gameObject;
+        }
     }
     private void OnCollisionStay2D(Collision2D collision)
     {

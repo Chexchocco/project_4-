@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Platform
   - recall_point
+  - Interaction_object
   layers:
   - Default
   - TransparentFX

@@ -9,7 +9,7 @@ public class recall : MonoBehaviour
     Vector3 direction;
     private Vector3 initPos;
     public float timer;
-
+    Player ply;
     public GameObject recallPoint;
     void Start()
     {
@@ -25,21 +25,24 @@ public class recall : MonoBehaviour
         initPos = player.gameObject.transform.position;
         gameObject.transform.position = player.gameObject.transform.position;
         direction = player.gameObject.transform.forward;
-        
+        ply = player;
     }
 
     // Update is called once per frame
     void Update()
     {
         timer -= 1;
-        if(timer <= 0)
+        if (timer <= 0)
         {
-            if ((GameObject.FindWithTag("recall_point")))
+            if (ply.can_move == true)
             {
-                Destroy(GameObject.FindWithTag("recall_point"));
+                if ((GameObject.FindWithTag("recall_point")))
+                {
+                    Destroy(GameObject.FindWithTag("recall_point"));
+                }
+                GameObject point = GameObject.Instantiate(recallPoint);
+                point.GetComponent<Recall_point>().init(this);
             }
-            GameObject point = GameObject.Instantiate(recallPoint);
-            point.GetComponent<Recall_point>().init(this);
             Destroy(gameObject);
         }
     }
