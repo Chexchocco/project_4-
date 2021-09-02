@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     private bool isJumping = false;
     SpriteRenderer rend;
     public bool can_move;
-   
+    public bool on_event;
     public GameObject recallPrefab;
 
     Vector3 recall_pos;
@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(can_move == true)
+        if ( (can_move == true) && (on_event ==false ) )
         {
             float h = Input.GetAxisRaw("Horizontal");
             if ((Input.GetKey(KeyCode.A) || (Input.GetKey(KeyCode.D))))
@@ -97,26 +97,33 @@ public class Player : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.E))
             {
-
                 anime.SetTrigger("Recall");
                 anime.SetBool("Recall_process", true);
                 can_move = false;
                 rigid.gravityScale = 0;
                 rigid.bodyType = RigidbodyType2D.Static;
             }
-            if (Input.GetKeyDown(KeyCode.F) &&(Can_Interact == true)   )
-            {
-
-                Dialogue_manager.Interaction(Interaction_object);
-            }
+            
 
 
             recall_trace();
 
-
-
         }
-        if(can_move == false)
+
+        if (Input.GetKeyDown(KeyCode.F) && (Can_Interact == true))
+        {
+
+            Dialogue_manager.Interaction(Interaction_object);
+            if (Dialogue_manager.On_action == true)
+            {
+                on_event = true;
+            }
+            else
+            {
+                on_event = false;
+            }
+        }
+        if (can_move == false)
         {
             recall_pro -= Time.deltaTime;
             if(recall_pro <= 0)
@@ -172,18 +179,19 @@ public class Player : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag.Equals("Interaction_object"))
+        if (collision.gameObject.CompareTag("Interaction_object"))
         {
+           
             Can_Interact = true;
-            GameObject Interaction_object = collision.gameObject;
+            Interaction_object = collision.gameObject;
         }
     }
-    private void OnTriggerExitStay2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.gameObject.tag.Equals("Interaction_object"))
+        if(collision.gameObject.CompareTag("Interaction_object"))
         {
             Can_Interact = false;
-            GameObject Interaction_object = collision.gameObject;
+            Interaction_object = collision.gameObject;
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
