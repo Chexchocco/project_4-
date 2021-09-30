@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     // Start is called before the first frame update
+    public float Switch_duration;
 
 
+    public event_stage Estage;
+    public Stage_manager stage;
     float fast_move_count = 3.0f;
     float cool_down = 10.0f;
     private bool isJumping = false;
@@ -16,38 +19,45 @@ public class Player : MonoBehaviour
     public GameObject recallPrefab;
 
     Vector3 recall_pos;
-
+    float punch;
     public float maxSpeed;
     Rigidbody2D rigid;
-
+    public Event_manager eManager;
     public Transform pTransform;
 
     //
-    private Animator anime;
+    public Animator anime;
     float recall_pro;
-    
+    bool can_recall;
     public DialogueManager Dialogue_manager;
     public GameObject Interaction_object;
     public bool Can_Interact;
+    public GameObject Respwan_object;
+    public bool Can_rewind;
+
+    public float rewind_cooldown = 0.0f;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
+        can_recall = true;
         rend = GetComponent<SpriteRenderer>();
         anime = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody2D>();
         can_move = true;
         recall_pro = 1.0f;
-        Can_Interact = false;
-    }
-
-
-
-    void Awake()
-    {
+        Can_rewind = true;
+        punch = 0.0f;
         rigid = GetComponent<Rigidbody2D>();
+        
 
     }
+
+
+
+
     // Update is called once per frame
     void Update()
     {
@@ -66,7 +76,9 @@ public class Player : MonoBehaviour
                     rigid.velocity = new Vector2(maxSpeed * (-1), rigid.velocity.y);
             }
             if ((Input.GetKey(KeyCode.Q)) && (fast_move_count == 3.0f))
-                maxSpeed = 8.0f;
+            {
+
+            }                
             if (Input.GetAxisRaw("Horizontal") == 0)
             {
                 anime.SetBool("Moving", false);
@@ -95,32 +107,80 @@ public class Player : MonoBehaviour
                 anime.SetBool("Landing", false);
                 anime.SetTrigger("Jumping");
             }
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) &&( can_recall == true)) 
             {
                 anime.SetTrigger("Recall");
                 anime.SetBool("Recall_process", true);
                 can_move = false;
                 rigid.gravityScale = 0;
                 rigid.bodyType = RigidbodyType2D.Static;
+                can_recall = false;
             }
             
-
 
             recall_trace();
 
         }
 
-        if (Input.GetKeyDown(KeyCode.F) && (Can_Interact == true))
+        if (Input.GetKeyDown(KeyCode.F) )
         {
-
-            Dialogue_manager.Interaction(Interaction_object);
-            if (Dialogue_manager.On_action == true)
+            if ((Can_Interact == true))
             {
-                on_event = true;
+                if (Interaction_object.name.Equals("ori"))
+                {
+                    Dialogue_manager.Interaction(Interaction_object);
+                    if (Dialogue_manager.On_action == true)
+                    {
+                        on_event = true;
+                    }
+                    else
+                    {
+                        on_event = false;
+                    }
+                }
+                else if (Interaction_object.name.Equals("tip"))
+                {
+                    Dialogue_manager.Interaction(Interaction_object);
+                    if (Dialogue_manager.On_action == true)
+                    {
+                        on_event = true;
+                    }
+                    else
+                    {
+                        on_event = false;
+                    }
+                }
+                else if (Interaction_object.name.Equals("switch_stone"))
+                {
+                    Estage.platform_switch = true;
+                    Estage.switch_time= Switch_duration;
+                    anime.SetTrigger("punching");
+                   
+
+                }
+                else if (Interaction_object.name.Equals("stage_stone"))
+                {
+                    stage.next_Stage = true;
+                    anime.SetTrigger("punching");
+
+
+                }
+                else if (Interaction_object.name.Equals("end"))
+                {
+                    Dialogue_manager.Interaction(Interaction_object);
+                    if (Dialogue_manager.On_action == true)
+                    {
+                        on_event = true;
+                    }
+                    else
+                    {
+                        on_event = false;
+                    }
+                }
             }
             else
             {
-                on_event = false;
+                
             }
         }
         if (can_move == false)
@@ -156,8 +216,22 @@ public class Player : MonoBehaviour
                 fast_move_count = 3.0f;
             }
         }
-
-        
+        /* if(rewind_cooldown > 0)
+        {
+            rewind_cooldown -= Time.deltaTime;
+            if(rewind_cooldown <= 0)
+            {
+                Can_rewind = true;
+            }
+        }*/ 
+        if (punch > 0)
+        {
+            punch -= Time.deltaTime;
+            if (punch <= 0)
+            {
+                on_event = false;
+            }
+        }
 
 
 
@@ -169,6 +243,7 @@ public class Player : MonoBehaviour
         if (!isJumping)
         {
             gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector3(0, 20, 0), ForceMode2D.Impulse);
+            isJumping = true;
         }
 
     }
@@ -184,6 +259,11 @@ public class Player : MonoBehaviour
            
             Can_Interact = true;
             Interaction_object = collision.gameObject;
+        }
+        if (collision.gameObject.CompareTag("boundary"))
+        {
+            SceneManager.LoadScene("Stage" + stage.number);
+            
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -202,9 +282,9 @@ public class Player : MonoBehaviour
             if (Vector3.Dot(contact.normal, Vector3.up) > 0.5)
             {
                 isJumping = false;
-                pTransform = collision.gameObject.transform;
+                // pTransform = collision.gameObject.transform;
 
-                transform.parent = pTransform; //오브젝트의 페어런트를 pTransform으로 지정하여 줍니다.
+                // transform.parent = pTransform; //오브젝트의 페어런트를 pTransform으로 지정하여 줍니다.
                 
             }
 

@@ -5,29 +5,32 @@ using UnityEngine;
 public class TimeObject : MonoBehaviour
 {
     // Start is called before the first frame update
-    private bool mouse_over = false;
-    private bool rewind = false;
+    public Player player;
+    public bool mouse_over = false;
+    public bool rewind = false;
     float rewind_durataion = 1.0f;
-    float speed = 0.003f;
     float cool_down = 0.0f;
-    private bool is_colliding = false;
+    
+    public short time_flow;
+    
     void Start()
     {
-
+        time_flow = 1;
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        if (mouse_over == true)
+        if ( ( mouse_over == true) && ( player.rewind_cooldown <= 0 ) ) 
         {
-            if ((Input.GetKey(KeyCode.R)) && (cool_down <= 0.0f))
+            if (Input.GetKey(KeyCode.R))
             {
+
                 rewind = true;
+                time_flow *= -1;
                 rewind_durataion = 10.0f;
-                cool_down = 3.0f;
-                Debug.Log("rewinded");
+                player.Can_rewind = false;
             }
         }
         if (rewind == true)
@@ -37,23 +40,11 @@ public class TimeObject : MonoBehaviour
             if (rewind_durataion <= 0)
             {
                 rewind = false;
-
+                time_flow *= -1;
             }
         }
-        if (cool_down > 0.0f)
-        {
-            cool_down -= Time.deltaTime;
-        }
-
-        if (rewind == true)
-        {
-            this.transform.Translate(new Vector3(speed, 0, 0));
-            
-        }
-        else if (rewind == false)
-        {
-            this.transform.Translate(new Vector3(-1 * speed, 0, 0));
-        }
+        
+        
 
 
     }
@@ -61,7 +52,7 @@ public class TimeObject : MonoBehaviour
     private void OnMouseEnter()
     {
         mouse_over = true;
-    }
+}
     private void OnMouseExit()
     {
         mouse_over = false;

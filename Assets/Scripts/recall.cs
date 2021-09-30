@@ -27,7 +27,12 @@ public class recall : MonoBehaviour
         direction = player.gameObject.transform.forward;
         ply = player;
     }
-
+    public void Forced_Init()
+    {
+        Destroy(GameObject.FindWithTag("recall_point"));
+        GameObject point = GameObject.Instantiate(recallPoint);
+        point.GetComponent<Recall_point>().init(this);
+    }
     // Update is called once per frame
     void Update()
     {

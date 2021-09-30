@@ -7,6 +7,9 @@ TagManager:
   - Platform
   - recall_point
   - Interaction_object
+  - boundary
+  - respwan_stone
+  - recall
   layers:
   - Default
   - TransparentFX
@@ -16,7 +19,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - character
   - 
   - 
   - 

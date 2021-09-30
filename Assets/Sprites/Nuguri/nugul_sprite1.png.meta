@@ -50,6 +50,33 @@ TextureImporter:
   - first:
       213: -6436695803907159305
     second: nugul_sprite1_15
+  - first:
+      213: 141977430444135544
+    second: nugul_sprite1_0
+  - first:
+      213: -5983502668868602376
+    second: nugul_sprite1_1
+  - first:
+      213: -1711280611791316765
+    second: nugul_sprite1_2
+  - first:
+      213: -3588339286090770334
+    second: nugul_sprite1_3
+  - first:
+      213: -1062844309800196591
+    second: nugul_sprite1_4
+  - first:
+      213: -7201536884534447827
+    second: nugul_sprite1_5
+  - first:
+      213: -6941678787666371433
+    second: nugul_sprite1_6
+  - first:
+      213: -5581940641955509037
+    second: nugul_sprite1_16
+  - first:
+      213: 3130404069893472083
+    second: nugul_sprite1_17
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -478,6 +505,48 @@ TextureImporter:
       bones: []
       spriteID: 7facdd8f4434ca6a0800000000000000
       internalID: -6436695803907159305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nugul_sprite1_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.35, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3dc0dee7f86f882b0800000000000000
+      internalID: -5581940641955509037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nugul_sprite1_17
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 128
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.35, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35fff6d7aed617b20800000000000000
+      internalID: 3130404069893472083
       vertices: []
       indices: 
       edges: []
